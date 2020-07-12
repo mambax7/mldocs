@@ -1,0 +1,39 @@
+<div id="staffMenu">
+<table border="0" width="100%">
+<tr align="center">
+    <td>
+        <a href="index.php"><img src="<{$mldocs_imagePath}>main.png" alt="<{$smarty.const._MLDOCS_MENU_MAIN}>" /></a><a href="index.php"><{$smarty.const._MLDOCS_MENU_MAIN}></a>
+    </td>
+    <td>
+        <a href="addArchive.php"><img src="<{$mldocs_imagePath}>addArchive.png" alt="<{$smarty.const._MLDOCS_MENU_LOG_ARCHIVE}>" /></a><a href="addArchive.php"><{$smarty.const._MLDOCS_MENU_LOG_ARCHIVE}></a>
+    </td>
+    <td>
+        <a href="profile.php"><img src="<{$mldocs_imagePath}>profile.png" alt="<{$smarty.const._MLDOCS_MENU_MY_PROFILE}>" /></a><a href="profile.php"><{$smarty.const._MLDOCS_MENU_MY_PROFILE}></a>
+    </td>
+    <td>
+        <a href="index.php?viewAllArchives=1"><img src="<{$mldocs_imagePath}>archive.png" alt="<{$smarty.const._MLDOCS_MENU_ALL_ARCHIVES}>" /></a> <a href="index.php?op=staffViewAll"><{$smarty.const._MLDOCS_MENU_ALL_ARCHIVES}></a>
+    </td>
+    <td>
+        <a href="search.php"><img src="<{$mldocs_imagePath}>search2.png" alt="<{$smarty.const._MLDOCS_MENU_SEARCH}>" /></a> <a href="search.php"><{$smarty.const._MLDOCS_MENU_SEARCH}></a>
+    </td>
+    <{if $mldocs_savedSearches neq false}>
+    <td>
+        <form name="savedSearches" method="post" action="search.php">
+            <select name="savedSearch">
+            <{foreach from=$mldocs_savedSearches item=search}>
+                <option value="<{$search.id}>"><{$search.name}></option>
+            <{/foreach}>
+            </select>
+            <input type="submit" name="runSavedSearch" id="runSavedSearch" value="<{$smarty.const._MLDOCS_BUTTON_RUN}>" />
+        </form>
+    </td>
+    <{/if}>
+    <td>
+        <form method="post" action="archive.php">
+            <input type="text" name="id" size="6" />
+            <input type="submit" name="getArchive" value="<{$smarty.const._GO}>" />
+        </form>
+    </td>
+</tr>
+</table>
+</div>

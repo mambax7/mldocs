@@ -1,0 +1,149 @@
+body {
+	margin : 0px 0px 0px 0px;
+	background-color: #F0F0F0;
+	font-size: 11px;
+	font-family: "Microsoft Sans Serif", Arial, Verdana;
+}
+
+.center{
+	text-align: center;
+}
+
+img{
+	border: none;
+}
+
+.ico{
+	vertical-align: middle;
+}
+
+.borderinfo{
+	text-align: left;
+	border: 1px solid #CCCCCC;
+	margin-left: 100px;
+	margin-right: 100px;
+	padding: 3px;
+	font-size: 11px;
+	font-weight:none;
+}
+.borderinfo a:link { color:black; text-decoration:underline }
+.borderinfo a:visited { color:black; text-decoration:underline }
+.borderinfo a:hover { color:blue; text-decoration:none}
+
+
+.tn{
+	text-align: center;
+	border: 1px solid #BBBBBB;
+    	padding: 0px;
+	background-color: white;
+}
+
+.bande { 
+	 font-size: 11px;
+	 font-weight:bold;
+	 color: #FFFFFF;
+	 background-color: blue;
+}
+.bande a:link { color:#FFFFFF; text-decoration:underline }
+.bande a:visited { color:#FFFFFF; text-decoration:underline }
+.bande a:hover { color:black; text-decoration:none}
+
+.gestfile { 
+	 font-size: 11px;
+	 font-weight:bold;
+	 color: #FFFFFF;
+	 background-color: blue;
+}
+
+.diaporama {
+	background-color: #CCCCCC;
+}
+
+.message {
+	border: 1px solid #BBBBBB;
+    	padding: 0px;
+	font-weight:bold;
+	background-color: white;
+}
+.message a:link { color:black; text-decoration:none }
+.message a:visited { color:black; text-decoration:none }
+.message a:hover { color:black; text-decoration:none }
+
+.lien { 
+	font-size: 11px;	
+	font-weight:none;
+}
+.lien a:link { color:black; text-decoration:none }
+.lien a:active { color:black; text-decoration:none }
+.lien a:visited { color:black; text-decoration:none }
+.lien a:hover { color:blue; text-decoration:none }
+
+
+.titre1 { 
+	 font-size: 11px;
+	 font-weight:bold;
+}
+.titre1 a:link { color:black; text-decoration:none }
+.titre1 a:active { color:black; text-decoration:none }
+.titre1 a:visited { color:black; text-decoration:none }
+.titre1 a:hover { color:blue; text-decoration:none }
+
+.Ctitre2 {
+	 font-size: 11px;
+	 font-weight:bold;
+	 color: #FFFFFF;
+	 background-color: blue;
+}
+
+.Ctitre2back { 
+	font-size: 11px;	
+	font-weight:none;
+}
+.Ctitre2back a:link { color:black; text-decoration:none }
+.Ctitre2back a:active { color:black; text-decoration:none }
+.Ctitre2back a:visited { color:black; text-decoration:none }
+.Ctitre2back a:hover { color:blue; text-decoration:none }
+
+.Ctitre3 {
+	 font-size: 11px;
+	 font-weight:bold;
+	 color: #FFFFFF;
+	 background-color: blue;
+}
+
+.Ctitre3back{
+	font-size: 11px;	
+	font-weight:none;
+}
+
+.Ctitre3back a:link { color:black; text-decoration:none }
+.Ctitre3back a:active { color:black; text-decoration:none }
+.Ctitre3back a:visited { color:black; text-decoration:none }
+.Ctitre3back a:hover { color:blue; text-decoration:none }
+
+.cadre{
+	background-color:blue;
+}
+
+.miniatureliste { 
+	 font-size: 11px;
+	 font-weight:bold;
+}
+.miniatureliste a:link { color:black; text-decoration:none }
+.miniatureliste a:active { color:black; text-decoration:none }
+.miniatureliste a:visited { color:black; text-decoration:none }
+.miniatureliste a:hover { color:blue; text-decoration:none }
+
+.nom { 
+	 font-size: 11px;
+	 font-weight:none;
+}
+.nom a:link { color:black; text-decoration:none }
+.nom a:visited { color:black; text-decoration:none }
+.nom a:hover { color:blue; text-decoration:none }
+
+.recherche { 
+	 font-size: 11px;
+	 font-weight:bold;
+	 color: blue;
+}

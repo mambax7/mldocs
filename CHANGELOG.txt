@@ -1,0 +1,47 @@
+Changes in 0.5  janvier 2006
+Initial Release  base de départ xHelp 0.77
+l'idée est de placer l'archive au centre de la GED...
+
+ v0.85 avril 2006  intégration des fonctions suivantes ou adaptation de l'existant:
+
+- indexation de une ou plusieurs vue(s) numérisées, documents *.opt, *.pdf, *.doc, *.xls,  ....
+- création d'index personnalisés
+- recherche par mots clés
+- classement par service (département)
+- visibilité de un ou plusieurs département(s)
+- gestion des droits de l'utilisateur ou rôles
+- gestion de la priorité
+- gestion des réponses (mini workflow) une archive <=> une réponse
+- classement centralisé des archives et rayonnage informatique
+- plugin  explore (application PHP permettant la visualisation des vues numérisées et/ou documents)
+version actuelle implémentée => 7.15, site Internet => http://www.jbc-explorer.com
+- plugin  viewer (comparable à une galerie image) visualise les formats d'images  jpg, gif,bmp, png.
+NOTA: le format d'image tiff n'est pas géré à l'affichage, celui ci est convertie au format png grâce 
+au fichier binaire tiff2png http://www.libpng.org/pub/png/apps/tiff2png.html
+
+
+http://www.byoos.fr         contact@byoos.fr
+
+1) version en cours de stabilisation
+
+v0.86  février 2007
+
+1) améliorer la gestion des répertoires (bannette) à corriger en bannette             => fait gabybob 11/02/2007
+2) traduire l'extention GED MLdocs  english                                           =>  à faire   contribution
+3) tri du code archive dans le résultat d'une recherche                               => fait gabybob 11/02/2007
+4) ajout de l'upload multiple dans la modification d'une archive (option) ou contribution
+5) à l'installation ajout des répertoires par défaut  /default, /archives, / bannette => fait gabybob 11/02/2007
+
+
+actuellement v0.86 au 11/02/2007
+
+2) complèter la traduction english sur les 'define' manquants
+3) gestion de la modification d'une archive
+
+v0.90 au 04/06/2009
+passage en UTF-8
+suppression du répertoire /mldocs/default et stockage par défaut dans /root/uploads
+automatisation du numéro d'archive
+
+
+

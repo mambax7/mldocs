@@ -1,0 +1,124 @@
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<{if $block.mldocs_has_changeOwner}>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_OWNERSHIP}>
+    </td>
+    <td class="even" colspan="2">
+    <form method="post" action="archive.php?id=<{$block.archiveid}>&amp;op=ownership">
+        <select name="uid" class="formButton">
+        <{foreach from=$block.ownership item=staff}>
+            <option value="<{$staff.uid}>" <{if $block.archive_ownership eq $staff.uid}>selected="selected"<{/if}>><{$staff.uname}></option>
+        <{/foreach}>
+        </select>
+        <br />
+        <input type="image" src="<{$block.imagePath}>assignOwner.png" title="<{$smarty.const._MLDOCS_TEXT_ASSIGN_OWNER}>" name="assignOwner" style="border:0;background:transparent" />
+        <br /><{$smarty.const._MLDOCS_TEXT_ASSIGN_OWNER}>
+    </form>
+    </td>
+</tr>
+<tr>
+    <td class="head" width="20%">
+            <{$smarty.const._MLDOCS_TEXT_ASSIGNTO}>
+    </td>            
+	<td class="even" colspan="2">
+        <form method="post" action="index.php?op=setdept">
+            <select name="department">
+                <{html_options options=$block.departments selected=$block.departmentid}>
+         	</select>
+         	<input type="hidden" name="archives" value="<{$block.archiveid}>">
+         	<input type="hidden" name="setdept" value="1">
+        	<input type="image" src="<{$block.imagePath}>assignOwner.png" title="<{$smarty.const._MLDOCS_TEXT_ASSIGNTO}>" name="assignDept" style="border:0;background:transparent" />
+        </form>
+    </td>
+</tr>
+<{/if}>
+<tr>
+    <td class="head" rowspan="<{$block.mldocs_actions_rowspan}>">
+        <{$smarty.const._MLDOCS_TEXT_ARCHIVE}>
+    </td>
+    
+    <td class="even center">
+        <{if $block.mldocs_has_addResponse}>
+            <a href="response.php?id=<{$block.archiveid}>&amp;op=staffFrm"><img src="<{$block.imagePath}>response.png" alt="<{$smarty.const._MLDOCS_TEXT_ADDRESPONSE}>" /></a>
+            <br /><{$smarty.const._MLDOCS_TEXT_ADD_RESPONSE}>
+        <{/if}>
+    </td>
+</tr>
+<{if $block.mldocs_has_editArchive}>
+<tr>
+    <td class="even center">
+        <a href="archive.php?id=<{$block.archiveid}>&amp;op=edit"><img src="<{$block.imagePath}>edit.png" alt="<{$smarty.const._MLDOCS_TEXT_EDITARCHIVE}>" /></a>
+        <br /><{$smarty.const._MLDOCS_TEXT_EDIT_ARCHIVE}>
+    </td>
+</tr>
+<{/if}>
+<{if $block.mldocs_has_deleteArchive}>
+<tr>
+    <td class="even center">
+        <form method="post" action="archive.php?id=<{$block.archiveid}>&amp;op=delete">
+        <input type="hidden" value="<{$block.archiveid}>" name="archiveid" />
+        <input type="hidden" value="1" name="delete_archive" />
+        <script language="javascript" type="text/javascript">
+        function confirmDelete()
+        {
+            confirm('<{$smarty.const._MLDOCS_JSC_TEXT_DELETE}>');
+        }
+        </script>
+        <input type="image" src="<{$block.imagePath}>delete.png" title="<{$smarty.const._MLDOCS_TEXT_DELETE_ARCHIVE}>" name="deleteArchive" onclick='return confirm("Are you sure you want to delete this archive?");' style="border:0;background:transparent" />
+        <br /><{$smarty.const._MLDOCS_TEXT_DELETE_ARCHIVE}>
+        </form>
+    </td>
+</tr>
+<{/if}>
+<{if $block.mldocs_has_mergeArchive}>
+<td class="even center">
+    <form method="post" action="archive.php?id=<{$block.archiveid}>&amp;op=merge">
+    <input type="text" name="archive2" size="8" title="<{$smarty.const._MLDOCS_TEXT_MERGE_TITLE}>" class="formButton" />
+    <input type="image" src="<{$block.imagePath}>merge.png" title="<{$smarty.const._MLDOCS_TEXT_MERGE_ARCHIVE}>" name="mergeArchive" style="border:0;background:transparent" />
+    <br /><{$smarty.const._MLDOCS_TEXT_MERGE_ARCHIVE}>
+    </form>
+</td>
+<{/if}>
+<tr>
+    <td class="even center">
+        <a href="archive.php?id=<{$block.archiveid}>&amp;op=print" target="_blank"><img src="<{$block.imagePath}>print.png" alt="<{$smarty.const._MLDOCS_TEXT_PRINT_ARCHIVE}>" /></a>
+        <br /><{$smarty.const._MLDOCS_TEXT_PRINT_ARCHIVE}>
+    </td>
+</tr>
+<{if $block.mldocs_has_changePriority}>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_UPDATE_PRIORITY}>
+    </td>
+    <td class="even">
+        <form method="post" action="archive.php?id=<{$block.archiveid}>&amp;op=updatePriority">
+            <{foreach from=$block.mldocs_priorities item=priority}>
+                <input type="radio" value="<{$priority}>" id="priority<{$priority}>" name="priority" <{if $block.archive_priority eq $priority}>checked="checked"<{/if}> />
+                <label for="priority<{$priority}>"><img src="<{$block.imagePath}>priority<{$priority}>.png" alt="<{$block.mldocs_priorities_desc.$priority}>" /></label><br />
+            <{/foreach}>
+            <input type="submit" name="updatePriority" value="<{$smarty.const._MLDOCS_BUTTON_UPDATE_PRIORITY}>" class="formButton" />
+        </form>
+    </td>
+</tr>
+<{/if}>
+<{if $block.mldocs_has_changeStatus}>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_UPDATE_STATUS}>
+    </td>
+    <td class="even" colspan="4">
+        <form method="post" action="archive.php?id=<{$block.archiveid}>&amp;op=updateStatus">
+        <select name="status">
+        <{foreach from=$block.statuses item=status}>
+            <option value="<{$status.id}>" <{if $block.archive_status eq $status.id}>selected="selected"<{/if}>><{$status.desc}></option>
+        <{/foreach}>
+        </select><br />
+        <input type="text" name="response" id="response" value="" class="formButton" /><br />
+        <input type="submit" name="updateStatus" value="<{$smarty.const._MLDOCS_BUTTON_UPDATE_STATUS}>" class="formButton" />
+        </form>
+    </td>
+</tr>
+<{/if}>
+
+</table>

@@ -1,0 +1,8 @@
+<table id="mldocs_dept_perf">
+<{foreach from=$block.departments item=dept}>
+<tr>
+    <td><a href="<{$dept.url}>"><{$dept.name}></a> (<{$dept.archives}>)</td>
+    <td><{if $block.use_img}><img src="<{$dept.img}>" alt="<{$dept.name}>" /><{else}><{$dept.archives}><{/if}></td>
+</tr>
+<{/foreach}>
+</table>

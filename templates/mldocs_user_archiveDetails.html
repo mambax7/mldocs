@@ -1,0 +1,212 @@
+<{include file='db:mldocs_user_header.html'}>
+
+<div id="details">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    <th colspan="2">
+        <{$mldocs_archive_details}>
+    </th>
+</tr>
+<tr class="head">
+    <td width="20%">
+    </td>
+    <td>
+        <{$mldocs_archive_posted}>
+    </td>
+</tr>
+<tr class="even">
+    <td>
+        <div class="comUserStat">
+            <{$smarty.const._MLDOCS_TEXT_PRIORITY}>
+            <img src="<{$mldocs_imagePath}>priority<{$mldocs_archive_priority}>full.png" alt="<{$mldocs_priorities_desc.$mldocs_archive_priority}>" />
+        </div>
+        <div class="comUserStat">
+            <{$smarty.const._MLDOCS_TEXT_STATUS}>
+            <{$mldocs_archive_status}>
+        </div>
+        <div class="comUserStat">
+            <{$smarty.const._MLDOCS_TEXT_LOG_TIME}>
+            <{$mldocs_archive_posted}>
+        </div>
+    </td>
+    <td>
+        <b><{$mldocs_archive_subject}></b><br />
+        <{$mldocs_archive_description}>
+        
+        <{if $mldocs_hasCustFields}>
+        <div id="custFields">
+            <br /><br />
+            <b><{$smarty.const._MLDOCS_TEXT_ADDITIONAL_INFO}></b><br />
+            <{foreach from=$mldocs_custFields item=field}>
+                <{if $field.value != ""}>
+                    <{if $smarty.const.MLDOCS_CONTROL_FILE == $field.controltype}>
+                        <b><{$field.name}></b>: <a href="<{$smarty.const.MLDOCS_BASE_URL}>/viewFile.php?id=<{$field.fileid}>"><{$field.filename}></a>
+                    <{else}>
+                        <b><{$field.name}></b>: <{$field.value}>
+                    <{/if}>
+                    <br />
+                <{/if}>
+            <{/foreach}>
+        </div>
+        <{/if}>
+        
+        <{if $mldocs_hasArchiveFiles}>
+            <br /><br />
+            <div id="mldocsFiles">
+            <table border="0" class="outer">
+            <tr class="head">
+                <td>
+                    <{$smarty.const._MLDOCS_TEXT_FILE}>
+                </td>
+                <td>
+                    <{$smarty.const._MLDOCS_TEXT_SIZE}>
+                </td>
+            </tr>
+            <{foreach from=$mldocs_aFiles item=aFile}>
+                <{if $aFile.responseid eq 0}>
+                <tr class="even">
+                    <td>
+                        <a href="<{$aFile.path}>"><{$aFile.filename}></a>
+                    </td>
+                    <td>
+                        <{$aFile.size}>
+                    </td>
+                </tr>
+                <{/if}>
+            <{/foreach}>
+            </table>
+            </div>
+        <{/if}>
+    </td>
+</tr>
+</table>
+</div>
+
+<br />
+<div id="responses">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    <th colspan="2">
+        <img src="<{$mldocs_imagePath}>response.png" alt="<{$smarty.const._MLDOCS_TEXT_RESPONSES}>" /><{$smarty.const._MLDOCS_TEXT_RESPONSES}>
+    </th>
+</tr>
+<{if $mldocs_hasResponses eq true}>
+<{foreach from=$mldocs_aResponses item=response}>
+<{if $response.private eq false}>
+<tr>
+    <td class="head" width="20%">
+        <{$response.uname}><br />
+        <{$response.updateTime}><br />
+        <br />
+        <{if $response.rating eq '' && $response.uid neq $mldocs_uid}>
+            <a href="staffReview.php?staff=<{$response.uid}>&amp;archiveid=<{$mldocs_archiveID}>&amp;responseid=<{$response.id}>"><{$smarty.const._MLDOCS_TEXT_RATE_RESPONSE}></a>
+        <{elseif $response.rating neq '' && $response.uid neq $mldocs_uid}>
+            <{$smarty.const._MLDOCS_TEXT_RESPONSE_RATING}> <{$response.rating}>
+        <{/if}>
+    </td>
+    <td class="<{cycle name="message" values="odd, even"}>">
+        <{$response.message}>
+        <{if $response.attachSig eq 1 && $response.user_sig neq ''}>
+            <{$smarty.const._MLDOCS_SIG_SPACER}>
+            <{$response.user_sig}>
+        <{/if}>
+        <br /><br />
+        <{if $response.hasFiles eq true}>
+            <table border="0" class="outer">
+            <tr class="head">
+                <td>
+                    <{$smarty.const._MLDOCS_TEXT_FILE}>
+                </td>
+                <td>
+                    <{$smarty.const._MLDOCS_TEXT_SIZE}>
+                </td>
+            </tr>
+            <{foreach from=$mldocs_aFiles item=aFile}>
+                <{if $aFile.responseid eq $response.id && $aFile.responseid neq 0}>
+                    <tr class="even">
+                        <td>
+                            <a href="<{$aFile.path}>"><{$aFile.filename}></a>
+                        </td>
+                        <td>
+                            <{$aFile.size}>
+                        </td>
+                    </tr>
+               <{/if}>
+           <{/foreach}>
+           </table>
+        <{/if}>
+    </td>
+</tr>
+<{/if}>
+<{/foreach}>
+<{else}>
+<tr class="even">
+    <td colspan="2">
+        <{$smarty.const._MLDOCS_NO_RESPONSES_ERROR}>
+    </td>
+</tr>
+<{/if}>
+</table>
+</div>
+
+<br />
+<{if $mldocs_allowResponse eq 1}>
+<div id="userResponse">
+<form method="post" enctype="multipart/form-data" action="archive.php?id=<{$mldocs_archiveID}>&amp;op=userResponse">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    <th colspan="2">
+        <{if $mldocs_reopenArchive eq true}>
+            <{$smarty.const._MLDOCS_TEXT_REOPEN_ARCHIVE}>
+        <{else}>
+            <{$smarty.const._MLDOCS_TEXT_MORE_INFO}>
+        <{/if}>
+    </th>
+</tr>
+<tr>
+    <td width="20%" class="head">
+        <{if $mldocs_reopenArchive eq true}>
+            <{$smarty.const._MLDOCS_TEXT_REOPEN_REASON}>
+        <{else}>
+            <{$smarty.const._MLDOCS_TEXT_MORE_INFO2}>
+        <{/if}>
+    </td>
+    <td class="even">
+        <textarea name="userResponse" rows="10" cols="50" class="formButton"></textarea>
+    </td>
+</tr>
+<{if $mldocs_allowUpload eq 1}>
+<tr>
+    <td width="20%" class="head">
+        <{$smarty.const._MLDOCS_TEXT_ADDFILE}>
+    </td>
+    <td class="even">
+        <input name="userfile" id="userfile" type="file" class="formButton" />
+    </td>
+</tr>
+<{/if}>
+<{if $mldocs_reopenArchive eq false}>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_CLOSE_ARCHIVE}>
+    </td>
+    <td class="even">
+        <input type="checkbox" name="closeArchive" value="1" />
+    </td>
+</tr>
+<{/if}>
+        
+<tr class="foot">
+    <td colspan="2">
+        <{if $mldocs_reopenArchive eq true}>
+            <input type="submit" name="newResponse" value="<{$smarty.const._MLDOCS_BUTTON_ADDRESPONSE}>" class="formButton" />
+        <{else}>
+            <input type="submit" name="newResponse" value="<{$smarty.const._MLDOCS_BUTTON_SUBMIT}>" class="formButton" />
+        <{/if}>
+        <input type="reset" value="<{$smarty.const._MLDOCS_BUTTON_RESET}>" class="formButton" />
+    </td>
+</tr>
+</table>
+</form>
+</div>
+<{/if}>

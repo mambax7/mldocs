@@ -1,0 +1,147 @@
+<{if $mldocs_errors neq null}>
+    <div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC no-repeat 7px 50%;color:#333;padding-left:45px;">
+        <img src="<{$mldocs_imagePath}>important.png" alt="" />
+        <{$smarty.const._MLDOCS_MESSAGE_VALIDATE_ERROR}><br />
+        <{foreach from=$mldocs_errors item=error key=key}>
+            <li><a href="#<{$key}>" onclick="document.addResponse.<{$key}>.focus();"><{$key}><{$error}></a></li>
+        <{/foreach}>
+    </div>
+    <br />
+<{/if}>
+<{include file='db:mldocs_staff_header.html'}>
+
+<div class="formButton" style="border:1px solid black;">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+    <th colspan="2">
+        <img src="<{$mldocs_imagePath}>response.png" alt="<{$smarty.const._MLDOCS_TITLE_ADDRESPONSE}>" /> <{$smarty.const._MLDOCS_TITLE_ADDRESPONSE}>
+    </th>
+</tr>
+<{if $mldocs_isSubmitter eq false || $mldocs_hasResponseTpl eq true}>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_PREDEFINED_RESPONSES}>
+    </td>
+    <td class="even">
+        <form name="formRefresh" method="get" action="<{$mldocs_baseURL}>/response.php">
+        <select name="replies" onchange="window.location='<{$mldocs_baseURL}>/response.php?id=<{$mldocs_archiveID}>&amp;op=staffFrm&amp;refresh='+this.options[this.selectedIndex].value;">
+            <{html_options values=$mldocs_responseTpl_ids selected=$mldocs_responseTpl_selected output=$mldocs_responseTpl_values}>
+        </select>
+        </form>
+    </td>
+</tr>
+<{/if}>
+</table>
+
+<form style="margin:0; padding:0;" method="post" enctype="multipart/form-data" action="<{$mldocs_baseURL}>/response.php?id=<{$mldocs_archiveID}>" name="addResponse">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_RESPONSE}>
+    </td>
+    <td class="even">
+        <textarea name="response" id="response" rows="10" cols="50" class="<{$mldocs_element_response}>"><{$mldocs_response_message}></textarea>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_TIMESPENT}>
+    </td>
+    <td class="even">
+        <input type="text" name="timespent" id="timespent" value="<{$mldocs_response_timespent}>" class="<{$mldocs_element_timespent}>" /><{$smarty.const._MLDOCS_TEXT_MINUTES}>
+    </td>
+</tr>
+<{if $mldocs_allowUpload eq 1}>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_ADDFILE}>
+    </td>
+    <td class="even">
+        <input name="userfile" type="file" class="formButton" />
+    </td>
+</tr>
+<{/if}>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_STATUS}>
+    </td>
+    <td class="even">
+    <select name="status">
+        <{foreach from=$mldocs_statuses item=status}>
+            <option value="<{$status.id}>" <{if $mldocs_archive_status eq $status.id}>selected="selected"<{/if}>><{$status.desc}></option>
+        <{/foreach}>
+    </select>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_PRIVATE_RESPONSE}>
+    </td>
+    <td class="even">
+    <{if $mldocs_response_private eq false}>
+        <input type="checkbox" name="private" value="1" class="formButton" />
+    <{else}>
+        <input type="checkbox" name="private" value="1" class="formButton" checked="checked" />
+    <{/if}>
+    </td>
+</tr>
+<{if $mldocs_isSubmitter eq false}>
+<{if $mldocs_has_owner neq $mldocs_currentUser}>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_CLAIMOWNER}>
+    </td>
+    <td class="even">
+    <{if $mldocs_response_ownership}>
+        <input name="claimOwner" value="<{$mldocs_currentUser}>" type="radio" class="formButton" <{if $mldocs_response_ownership eq 1}>checked="checked"<{/if}> /><{$smarty.const._MLDOCS_TEXT_YES}>
+        <input name="claimOwner" value="0" type="radio" class="formButton" <{if $mldocs_response_ownership eq 0}>checked="checked"<{/if}> /><{$smarty.const._MLDOCS_TEXT_NO}>
+    <{else}>
+        <input name="claimOwner" value="<{$mldocs_currentUser}>" type="radio" class="formButton" <{if $mldocs_has_owner eq 0}>checked="checked"<{/if}> /><{$smarty.const._MLDOCS_TEXT_YES}>
+        <input name="claimOwner" value="0" type="radio" class="formButton" <{if $mldocs_has_owner neq 0}>checked="checked"<{/if}> /><{$smarty.const._MLDOCS_TEXT_NO}>
+    <{/if}>
+    </td>
+</tr>
+<{/if}>
+<{else}>
+    <input type="hidden" name="claimOwner" value="0">
+<{/if}>
+<tr>
+    <td class="head">
+    </td>
+    <td class="even">
+        <input type="submit" value="<{$smarty.const._MLDOCS_BUTTON_ADDRESPONSE}>" class="formButton" />
+        <input type="reset" value="<{$smarty.const._MLDOCS_BUTTON_RESET}>" class="formButton" />
+        <input type="hidden" name="op" value="staffAdd" />
+    </td>
+</tr>
+</table>
+</form>
+</div>
+
+<br />
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    <th colspan="2">
+        <img src="<{$mldocs_imagePath}>archiveInfo.png" alt="<{$mldocs_archive_details}>" /><{$mldocs_archive_details}>
+    </th>
+</tr>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_SUBJECT}>   
+    </td>
+    <td class="even">
+        <{$mldocs_archive_subject}>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_DESCRIPTION}>   
+    </td>
+    <td class="even">
+        <{$mldocs_archive_description}>
+    </td>
+</tr>
+</table>
+
+
+

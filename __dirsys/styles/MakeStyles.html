@@ -1,0 +1,122 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Feuille de style</title>
+<style type="text/css">
+a.blanc            	{ color:#FFFFFF ; text-decoration: none}
+a.blanc:hover      	{ color:#000000 ; text-decoration: none}
+</style>
+</head>
+<body>
+<table bgcolor="#CCCCCC" align="center" cellspacing="2" cellpadding="2">
+<tr><td bgcolor="blue" align="center"><b><font color="#ffffff" size="4">Personnaliser votre skin</font></b></td></tr>
+<tr><td><b>Editer une feuille de style : style*.css  </b></td></tr>
+<tr><td bgcolor="#000080"><b><font color="#ffffff">La classe body</font></b></td></tr>
+<tr><td bgcolor="#F0F0F0">
+
+body {<br>
+&nbsp;&nbsp;margin : 0px 0px 0px 0px;<br>
+&nbsp;&nbsp;background-color: #FFFFFF;<br>
+&nbsp;&nbsp;font-size: 11px;<br>
+&nbsp;&nbsp;font-family: "Microsoft Sans Serif", Arial, Verdana;<br>
+}<br><br>
+</td></tr>
+<tr><td>
+<u><b>Cette classe permet de définir :</b></u><br>
+<i><b>La couleur de fond :</b></i>  background-color: #FFFFFF;<br>
+
+cette couleur de fond s'applique à toutes les pages sauf celle du diaporama<br>
+<i><b>la taille du texte par défaut :</b></i> font-size: 11px;<br>
+<i><b>la police utilisée par défaut:</b></i> font-family: "Microsoft Sans Serif", Arial, Verdana;<br>
+Le premier nom indique la police utilisée par défaut le deuxiéme est utilisée si la premiére n'existe pas etc...<br>
+</td></tr>
+<tr><td><br></td></tr>
+<tr><td bgcolor="#000080"><b><font color="#ffffff">La classe tn</font></b></td></tr>
+<tr><td bgcolor="#F0F0F0">
+
+.tn{<br>
+&nbsp;&nbsp;text-align: center;<br>
+&nbsp;&nbsp;border: 1px solid #BBBBBB;<br>
+&nbsp;&nbsp;padding: 0px;<br>
+&nbsp;&nbsp;background-color: #FFFFFF;<br>
+}<br><br>
+</td></tr>
+<tr><td>
+<u><b>Cette classe permet de définir :</b></u><br>
+<i><b>La couleur de fond des miniatures:</b></i>  background-color: #FFFFFF;<br>
+
+<i><b>Le contour des miniatures</b></i> border: 1px solid #BBBBBB;<br>
+border : epaisseur de la bordure (0px pour ne pas avoir de bordure)<br>
+#BBBBBB : c'est la couleur de la bordure.<br>
+</td></tr>
+<tr><td><br></td></tr>
+<tr><td bgcolor="#000080"><b><font color="#ffffff">La classe bande</font></b></td></tr>
+<tr><td bgcolor="#F0F0F0">
+.bande { <br>
+&nbsp;&nbsp;font-size: 11px;<br>
+
+&nbsp;&nbsp;font-weight:none;<br>
+&nbsp;&nbsp;color: #000000;<br>
+&nbsp;&nbsp;background-color: #CCCCCC;<br>
+}<br><br>
+</td></tr>
+<tr><td>
+<u><b>Cette classe permet de définir :</b></u><br>
+<i><b>La couleur des bande (nom,taille...):</b></i>  background-color: #CCCCCC;<br>
+<i><b>Le style d'écriture des mots de la bande:</b></i><br>
+
+font-weight:none; : au lieu de <i>none</i> vous pouvez mettre <i>bold</i> = gras - <i>bolder</i> = très gras - <i>lighter</i> = plus fin.<br>
+color: #000000; : couleur de l'écriture<br>
+</td></tr>
+
+<tr><td><br></td></tr>
+<tr><td bgcolor="#000080"><b><font color="#ffffff">La classe diaporama</font></b></td></tr>
+<tr><td>Permet de définir la couleur de fond du diaporama.
+<br><br></td></tr>
+<tr><td bgcolor="#000080"><b><font color="#ffffff">La classe message</font></b></td></tr>
+<tr><td bgcolor="#F0F0F0">
+.message {<br>
+	border: 1px solid #BBBBBB;<br>
+    padding: 0px;<br>
+	font-weight:bold;<br>
+
+	background-color: white;<br>
+}<br>
+.message a:link { color:black; text-decoration:none }<br>
+.message a:visited { color:black; text-decoration:none }<br>
+.message a:hover { color:black; text-decoration:none }<br>
+<br><br>
+</td></tr>
+<tr><td>
+<u><b>Cette classe permet de définir :</b></u><br>
+<i><b>La couleur de fond de la fenêtre du message</b></i> <br>
+
+<i><b>La bordure de la fenêtre du message</b></i><br>
+<i><b>Le style des liens contenu dans le message : </b></i><br>
+a:link { color:black; text-decoration:none } : couleur du lien <br>
+a:visited { color:black; text-decoration:none } : couleur du lien quand il a été visité <br>
+a:hover { color:black; text-decoration:none } : couleur du lien lors du passage de la souris<br>
+text-decoration:none : mettez <i>underline</i> à la place de <i>none</i> si vous voulez que le lien soit souligné<br>
+
+</td></tr>
+<tr><td><br></td></tr>
+<tr><td bgcolor="#000080"><b><font color="#ffffff">La classe lien</font></b></td></tr>
+<tr><td>Permet de définir le style des liens de la liste des répertoires et fichiers.
+<br><br></td></tr>
+<tr><td bgcolor="#000080"><b><font color="#ffffff">La classe titre1</font></b></td></tr>
+<tr><td>Permet de définir le style des liens des diffirents modules et de www.votresite.com .
+<br><br></td></tr>
+<tr><td bgcolor="#000080"><b><font color="#ffffff">La classe miniatureliste</font></b></td></tr>
+<tr><td>Permet de définir le style des liens miniatures et listes pour basculer de mode d'affichage.
+<br><br></td></tr>
+<tr><td bgcolor="#000080"><b><font color="#ffffff">La classe nom</font></b></td></tr>
+<tr><td>Permet de définir le style des liens des noms des miniatures.
+
+<br><br></td></tr>
+<tr><td bgcolor="#000080"><b><font color="#ffffff">La classe recherche</font></b></td></tr>
+<tr><td>Permet de définir le style du texte de <i>Rechercher un fichier</i> dans le module de recherche.
+<br><br></td></tr>
+<tr><td bgcolor="blue" align="right"><b><a class="blanc" href="http://www.bbc-grc.com/">blc29</a></b></td></tr>
+</table>
+</body>
+</html>

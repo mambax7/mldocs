@@ -1,0 +1,19 @@
+<div id="mldocs_bOpenArchives">
+    <ul>
+<{if $block.numArchives neq 0}>
+    <{foreach from=$block.archive item=archive}>
+    <{if $archive.overdue}>
+        <li class="overdue"><a href="<{$archive.url}>" title="<{$archive.id}> - <{$archive.subject}>"><{$archive.truncSubject}></a></li>
+    <{else}>
+        <li><a href="<{$archive.url}>" title="<{$archive.id}> - <{$archive.subject}>"><{$archive.truncSubject}></a></li>
+    <{/if}>
+    <{/foreach}>
+<{else}>
+    <li><{$block.noArchives}></li>
+<{/if}>
+    </ul>
+<{if $block.isStaff}>
+    <br />
+    <a href="<{$block.viewAll}>"><{$block.viewAllText}></a>
+<{/if}>
+</div>

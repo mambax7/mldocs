@@ -1,0 +1,87 @@
+<{include file='db:mldocs_user_header.html'}>
+
+<{if $mldocs_noStaff}>
+    <div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC no-repeat 7px 50%;color:#333;padding-left:45px;">
+    <{$smarty.const._MLDOCS_MESSAGE_NO_STAFF}>
+    </div>
+<{/if}>
+
+<br />
+<div id="userArchives">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    
+    <th colspan="5">
+        <img src="<{$mldocs_imagePath}>openArchive.png" alt="<{$smarty.const._MLDOCS_TEXT_MY_OPEN_ARCHIVES}>" /><{$smarty.const._MLDOCS_TEXT_MY_OPEN_ARCHIVES}>
+    </th>
+    
+</tr>
+<{if $mldocs_has_userArchives neq 0}>
+    <tr class="head">
+        <td>
+            <{$smarty.const._MLDOCS_TEXT_ID}>
+        </td>
+        <td>
+            <{$smarty.const._MLDOCS_TEXT_CODEARCHIVE}>
+        </td>
+        <td>
+            <{$smarty.const._MLDOCS_TEXT_STATUS}>
+        </td>
+        <td>
+            <{$smarty.const._MLDOCS_TEXT_PRIORITY}>
+        </td>
+        <td>
+            <{$smarty.const._MLDOCS_TEXT_LOG_TIME}>
+        </td>
+    </tr>
+    <{foreach from=$mldocs_userArchives item=archive}>
+    <tr class="<{cycle values="odd,even"}>">
+        <td>
+            <{$archive.id}>
+        </td>
+        <td>
+            <a href="<{$mldocs_baseURL}>/archive.php?id=<{$archive.id}>"><{$archive.codearchive}></a>
+        </td>
+        <td>
+            <{$archive.status}>
+        </td>
+        <td>
+            <img src="<{$mldocs_imagePath}>priority<{$archive.priority}>.png" alt="<{$smarty.const._MLDOCS_TEXT_PRIORITY}> <{$archive.priority}>" />
+        </td>
+        <td>
+            <{$archive.posted}>
+        </td>
+    </tr>
+    <{/foreach}>
+<{else}>
+    <tr class="odd">
+        <td colspan="4">
+            <{$smarty.const._MLDOCS_NO_ARCHIVES_ERROR}>
+        </td>
+    </tr>
+<{/if}>
+</table>
+</div>
+
+<br />
+<{if $mldocs_useAnnouncements eq true}>
+    <div id="announcements">
+    <table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+    <tr>
+        <th>
+            <{$smarty.const._MLDOCS_TEXT_ANNOUNCEMENTS}>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <{* start news item loop *}>
+            <{section name=i loop=$mldocs_announcements}>
+              <{include file="db:mldocs_announcement.html" story=$mldocs_announcements[i]}>
+              <br />
+            <{/section}>
+            <{* end news item loop *}>
+        </td>
+    </tr>
+    </table>
+    </div>
+<{/if}>

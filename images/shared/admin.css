@@ -1,0 +1,105 @@
+.admintable {
+	font: 9pt bold tahoma, arial;
+	color: black;
+	background-color: #999; 
+    border: 0;
+	padding-left: 1px;
+}
+.admintdleft {
+	font: 9pt bold tahoma, arial; 
+	color: #515151;
+	background-color: #fff;
+	vertical-align: middle;
+   border: 0;
+}
+.admintd {
+	font: 9pt bold tahoma, arial; 
+	color: #515151;
+	background-color: #fff;
+	vertical-align: middle;
+    border: 0;
+	text-align: center;
+}
+.admintoolbar {
+	background-color: #fff;
+	text-align: center;
+	padding: 6px;
+}
+.adminh1 {
+	font: bold 12pt arial;
+	color: #fff;
+	background-color: #329DFA;
+	text-decoration: none;
+    border: 0;
+	text-align: left;
+	letter-spacing : 5px;
+	padding: 12px 6px 0px 6px;
+}
+.adminstatus {
+	font: bold 9pt tahoma, arial;
+	color: #1FAF21;
+	background-color: #fff;
+	text-decoration: none;
+    border: 0;
+	text-align: center;
+	vertical-align: middle;
+	height: 30px;
+}
+.adminheadline {
+	font: bold 9pt tahoma, arial;
+	background-color: #fff;
+	text-align: right;
+	vertical-align: middle;
+	color: black;
+    letter-spacing: 3px;
+    border: 0;
+	padding-right: 5px;
+}
+
+.admindropdown {
+	font: 8pt tahoma, arial;
+	background-color: #E0E0E0;
+	text-align: left;
+	vertical-align: middle;
+	color: black;
+	border: 1px solid #A4A4A4;
+	}
+.adminbutton {
+	font: 8pt tahoma, arial;
+	border: 1px solid #525252;
+	background-color: #E0E0E0;
+	height: 16px;
+}
+.adminpicbutton {
+	vertical-align: middle;
+	border: 0;
+}
+.admintext {
+	font: 8pt tahoma, arial;
+	background-color: #E0E0E0;
+	color: black;
+	border: 1px solid #A4A4A4;
+	height: 16px;
+	vertical-align: middle;
+}
+body  {
+	font: 9pt tahoma, arial;
+	color : #4A4A4A;
+	scrollbar-arrow-color: black;
+	scrollbar-base-color: #707070;
+	scrollbar-dark-shadow-color: #FFFFFF;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-highlight-color: #AAAAAA;
+	scrollbar-shadow-color: #AAAAAA;
+	scrollbar-3d-light-color: #707070;
+	scrollbar-track-color: #FFFFFF;
+	scrollbar-darkshadow-color: #707070;
+	background-color: #CECECE;
+	margin: 0;
+}
+a:link   { color: black; text-decoration: underline; }
+a:vlink  { color: black; text-decoration: underline; }
+a:alink  { color: black; text-decoration: underline; }
+a:hover  { color: #1FAF21; text-decoration: underline; }
+a:visited  { color: black; text-decoration: underline; }
+a:visited:hover { color: #1FAF21; text-decoration: underline; }

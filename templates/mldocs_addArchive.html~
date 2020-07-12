@@ -1,0 +1,292 @@
+<{if $mldocs_errors neq null}>   <{* Errors on archive submission? *}>
+    <div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC no-repeat 7px 50%;color:#333;padding-left:45px;">
+        <img src="<{$mldocs_imagePath}>important.png" />
+        <{$smarty.const._MLDOCS_MESSAGE_VALIDATE_ERROR}><br />
+        <{foreach from=$mldocs_errors item=error key=key}>
+            <li><a href="#<{$key}>" onclick="document.addArchive.<{$key}>.focus();"><{$key}><{$error}></a></li>
+        <{/foreach}>
+    </div>
+    <br />
+<{/if}>
+<{if $mldocs_isStaff}>   <{* staff or user?: include appropriate header *}>
+<{include file='db:mldocs_staff_header.html'}>
+<{elseif $mldocs_isUser}>
+<{include file='db:mldocs_user_header.html'}>
+<{/if}>
+
+<{* javascript file for multiple file uploads *}>
+<{if $mldocs_allowUpload eq 1}>
+    <script src="<{$mldocs_includeURL}>/multifile.js"></script>
+    <script type="text/javascript">
+        function createMultiSelector() 
+        {
+            <!-- Create an instance of the multiSelector class, pass it the output target and the max number of files -->
+        	var multi_selector = new MultiSelector( document.getElementById( 'files_list' ), <{$mldocs_numArchiveUploads}> );
+        	<!-- Pass in the file element -->
+        	multi_selector.addElement( document.getElementById( 'userfile' ) );
+        	return;
+        }
+    </script>
+<{/if}>
+<form method="post" enctype="multipart/form-data" action="<{$mldocs_baseURL}>/<{$mldocs_current_file}>" name="addArchive" id="addArchive">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton" id="tblAddArchive">
+<tr>
+    <th colspan="2">
+        <{if $mldocs_isStaff && $mldocs_logMode eq 1}>
+            <a href="addArchive.php?view_id=2" style="float:right"><{$smarty.const._MLDOCS_TEXT_SWITCH_TO}><{$smarty.const._MLDOCS_TEXT_VIEW2}></a>
+        <{elseif $mldocs_isStaff && $mldocs_logMode neq 1}>
+            <a href="addArchive.php?view_id=1" style="float:right"><{$smarty.const._MLDOCS_TEXT_SWITCH_TO}><{$smarty.const._MLDOCS_TEXT_VIEW1}></a>
+        <{/if}>
+        <img src="<{$mldocs_imagePath}>addArchive_form.png" alt="<{$smart.const._MLDOCS_TITLE_ADDARCHIVE}>" /> <{$smarty.const._MLDOCS_TITLE_ADDARCHIVE}>      
+    </th>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_NAME}>
+    </td>
+    <td class="even">
+        <input type="text" id="fullname" name="fullname" class="formButton" value="<{$mldocs_archive_username}>" disabled="disabled" />
+        <{if $mldocs_isStaff && $mldocs_has_logUser}>
+            <input type="hidden" id="user_id" name="user_id" class="formButton" value="<{$mldocs_archive_uid}>" />
+            <a href="javascript:openWithSelfMain('lookup.php','lookup',400,300);"><img src="<{$mldocs_imagePath}>lookup.png" title="<{$smarty.const._MLDOCS_TEXT_LOOKUP_USER}>" /> <{$smarty.const._MLDOCS_TEXT_LOOKUP_USER}></a>
+        <{else}>
+            <input type="hidden" name="user_id" class="formButton" value="<{$mldocs_archive_uid}>" />
+        <{/if}>
+    </td>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_ASSIGNTO}>
+    </td>
+    <td class="even">
+        <select name="departments" id="departments">
+        <{foreach from=$mldocs_departments item=dept}>
+            <option value="<{$dept.id}>" <{if $mldocs_archive_department eq $dept.id || $mldocs_default_dept eq $dept.id}>selected="selected"<{/if}>><{$dept.department}></option>
+        <{/foreach}>
+        </select>
+    </td>
+</tr>
+<tr id="priority">
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_PRIORITY}>
+    </td>
+    <td class="even" span="5">
+        <{foreach from=$mldocs_priorities item=priority}>
+            <input type="radio" value="<{$priority}>" id="priority<{$priority}>" name="priority" <{if $mldocs_archive_priority eq $priority}>checked="checked"<{/if}> />
+            <label for="priority<{$priority}>"><img src="<{$mldocs_imagePath}>priority<{$priority}>.png" alt="<{$mldocs_priorities_desc.$priority}>" /></label>
+        <{/foreach}>
+    </td>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_CODEARCHIVE}>
+    </td>
+    <td class="even">
+        <input type="text" name="codearchive" id="codearchive" maxlength="15" size="20" value="<{$mldocs_codearchive}>" class="<{$mldocs_element_codearchive}>" />
+    </td>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_SUBJECT}>
+    </td>
+    <td class="even">
+        <input type="text" name="subject" id="subject" maxlength="100" size="67" value="<{$mldocs_tagSubject}>" class="<{$mldocs_element_subject}>" />
+    </td>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_DESCRIPTION}>
+    </td>
+    <td class="even">
+        <textarea name="description" id="description" rows="5" cols="50" class="<{$mldocs_element_description}>"><{$mldocs_tagDescription}></textarea>
+    </td>
+</tr>
+<{if $mldocs_isStaff && $mldocs_logMode eq 1}>
+    <{if $mldocs_allowUpload eq 1}>
+    <tr>
+        <td class="head" width="20%">
+            <{$smarty.const._MLDOCS_TEXT_ADDFILE}>
+        </td>
+        <td class="even">
+            <input name="userfile_1" id="userfile" type="file" class="formButton" />
+            <div id="files_list"></div>
+            <script type="text/javascript">
+            	createMultiSelector();
+            </script>
+        </td>
+    </tr>
+    <{/if}>
+<{else}>
+    <{if $mldocs_allowUpload eq 1}>
+    <tr>
+        <td class="head" width="20%">
+            <{$smarty.const._MLDOCS_TEXT_ADDFILE}>
+        </td>
+        <td class="even">
+            <input name="userfile_1" id="userfile" type="file" class="formButton" />
+            <div id="files_list"></div>
+            <script>
+            	createMultiSelector();
+            </script>
+        </td>
+    </tr>
+    <{/if}>
+<{/if}>
+<{* Start of new response code *}>
+<{if $mldocs_isStaff && $mldocs_logMode eq 2}>
+    <tr>
+        <td class="head" width="20%">
+            <{$smarty.const._MLDOCS_TEXT_RESPONSE}>
+        </td>
+        <td class="even">
+            <textarea name="response" id="response" rows="5" cols="50" class="<{$mldocs_element_response}>"><{$mldocs_response_message}></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="head" width="20%">
+            <{$smarty.const._MLDOCS_TEXT_TIMESPENT}>
+        </td>
+        <td class="even">
+            <input type="text" name="timespent" id="timespent" value="<{$mldocs_response_timespent}>" class="<{$mldocs_element_timespent}>" /><{$smarty.const._MLDOCS_TEXT_MINUTES}>
+        </td>
+    </tr>
+    <{if $mldocs_isStaff && $mldocs_logMode neq 1}>
+        <{if $mldocs_allowUpload eq 1}>
+        <tr>
+            <td class="head" width="20%">
+                <{$smarty.const._MLDOCS_TEXT_ADDFILE}>
+            </td>
+            <td class="even">
+                <input name="userfile_1" id="userfile" type="file" class="formButton" />
+                <div id="files_list"></div>
+                <script>
+                	createMultiSelector();
+                </script>
+            </td>
+        </tr>
+        <{/if}>
+    <{/if}>
+    <tr>
+        <td class="head" width="20%">
+            <{$smarty.const._MLDOCS_TEXT_STATUS}>
+        </td>
+        <td class="even">
+        <select name="status" id="status">
+            <{foreach from=$mldocs_statuses item=status}>
+                <option value="<{$status.id}>" <{if $status.id eq $mldocs_archive_status}>selected="selected"<{/if}>><{$status.desc}></option>
+            <{/foreach}>
+        </select>
+        </td>
+    </tr>
+    <{if $mldocs_aOwnership neq false}>
+    <tr>
+        <td class="head" width="20%">
+            <{$smarty.const._MLDOCS_TEXT_ASSIGN_OWNER}>
+        </td>
+        <td class="even">
+            <select name="owner" id="owner" class="formButton">
+                <{foreach from=$mldocs_aOwnership item=uname key=uid}>
+                    <option value="<{$uid}>" <{if $mldocs_archive_ownership eq $uid}>selected="selected"<{/if}>><{$uname}></option>
+                <{/foreach}>
+            </select>
+        </td>
+    </tr>
+    <{/if}>
+    <tr id="privResponse">
+        <td class="head" width="20%">
+            <{$smarty.const._MLDOCS_TEXT_PRIVATE_RESPONSE}>
+        </td>
+        <td class="even">
+        <{if $mldocs_response_private eq false}>
+            <input type="checkbox" name="private" value="1" class="formButton" />
+        <{else}>
+            <input type="checkbox" name="private" value="1" class="formButton" checked="checked" />
+        <{/if}>
+        </td>
+    </tr>
+<{/if}>
+<{* End of new response code *}>
+<{* Start of custom field code *}>
+<{if $mldocs_hasCustFields}>
+    <{foreach from=$mldocs_custFields item=field}>
+    <tr class="custfld">
+        <td class="head" width="20%">
+            <{$field.name}>:
+            <{if $field.desc != ""}>
+                <br /><br />
+                <{$field.desc}>
+            <{/if}>
+        </td>
+        <td class="even">
+            <{if $field.controltype == $smarty.const.MLDOCS_CONTROL_TXTBOX}>
+                <input type="text" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="<{$field.defaultvalue}>" maxlength="<{$field.maxlength}>" size="<{$field.fieldlength}>" />
+            <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_TXTAREA}>
+                <textarea name="<{$field.fieldname}>" id="<{$field.fieldname}>" cols="<{$field.fieldlength}>" rows="5"><{$field.defaultvalue}></textarea>
+            <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_SELECT}>
+                <select name="<{$field.fieldname}>" id="<{$field.fieldname}>" size="1">
+                    <{foreach from=$field.fieldvalues item=value key=key}>
+                        <option value="<{$key}>" <{if $field.defaultvalue == $key}>selected="selected"<{/if}>><{$value}></option>
+                    <{/foreach}>
+                </select>
+            <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_MULTISELECT}>
+                <select name="<{$field.fieldname}>" id="<{$field.fieldname}>" size="3" multiple="multiple">
+                    <{foreach from=$field.fieldvalues item=value key=key}>
+                        <option value="<{$key}>" <{if $field.defaultvalue == $key}>selected="selected"<{/if}>><{$value}></option>
+                    <{/foreach}>
+                </select>
+            <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_YESNO}>
+                <input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}>1" value="1" <{if $field.defaultvalue == 1}>checked="checked"<{/if}> /><{$smarty.const._MLDOCS_TEXT_YES}><br />
+                <input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}>0" value="0" <{if $field.defaultvalue == 0}>checked="checked"<{/if}> /><{$smarty.const._MLDOCS_TEXT_NO}>
+            <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_CHECKBOX}>
+                <{foreach from=$field.fieldvalues item=value key=key}>
+                    <input type="checkbox" name="<{$field.fieldname}>" id="<{$field.fieldname}><{$key}>" value="<{$key}>" <{if $key == $field.defaultvalue}>checked="checked"<{/if}> /><{$value}><br />
+                <{/foreach}>
+            <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_RADIOBOX}>
+                <{foreach from=$field.fieldvalues item=value key=key}>
+                    <input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}><{$key}>" value="<{$key}>" <{if $key == $field.defaultvalue}>checked="checked"<{/if}> /><{$value}><br />
+                <{/foreach}>
+            <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_DATETIME}>
+                <input type="text" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="<{$field.defaultvalue}>" maxlength="<{$field.maxlength}>" size="<{$field.fieldlength}>" />
+            <{else}>
+                <!-- else is for MLDOCS_CONTROL_FILE-->
+                <input type="file" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="" size="<{$field.fieldlength}>" />
+            <{/if}>
+        </td>
+    </tr>
+    <{/foreach}>
+<{/if}>
+<{* End of custom field code *}>
+<tr id="addButtons">
+    <td class="head" width="20%">
+    </td>
+    <td class="even">
+    <input type="hidden" name="bannettefile" id="bannettefile" value="<{$mldocs_bannettefile}>" />
+        <input type="submit" name="addArchive" value="<{$smarty.const._MLDOCS_BUTTON_ADDARCHIVE}>" class="formButton" />
+        <input type="reset" value="<{$smarty.const._MLDOCS_BUTTON_RESET}>" class="formButton" />
+        <{if $mldocs_aOwnership eq false}>
+            <input type="hidden" name="owner" value="0" />
+        <{/if}>
+    </td>
+</tr>
+</table>
+</form>
+<body>
+    <script type="text/javascript">
+        document.getElementById('codearchive').focus();
+        <!-- onLoad="document.forms['addArchive'].elements['codearchive'].focus()"; -->
+     </script>
+</body>
+<{if $mldocs_allowUpload eq 1}>
+<br />
+<fieldset><legend><{$mldocs_nbvues}><{$smarty.const._MLDOCS_TEXT_AVAIL_BANNETTE}></legend>
+    <div id="bannette">
+         <{$mldocs_listefichier}>
+    </div>
+</fieldset>
+<br />
+<fieldset><legend><{$smarty.const._MLDOCS_TEXT_AVAIL_FILETYPES}></legend>
+    <div id="mimetypes">
+        <{$mldocs_mimetypes}>
+    </div>
+</fieldset>
+<{/if}>

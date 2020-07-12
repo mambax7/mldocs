@@ -1,0 +1,25 @@
+<div id="mldocs_setpriority">
+<form method="post" name="frmSetPriority">
+<table style="width:85%;" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    <th colspan="2"><{$smarty.const._MLDOCS_TEXT_SETPRIORITY}></th>
+</tr>
+<tr>
+    <td class="head" width="20%"><{$smarty.const._MLDOCS_TEXT_PRIORITY}></td>
+    <td class="odd">
+        <{foreach from=$mldocs_priorities item=priority}>
+            <input type="radio" value="<{$priority}>" id="priority<{$priority}>" name="priority" <{if $mldocs_priority eq $priority}>checked="checked"<{/if}> />
+            <label for="priority<{$priority}>"><img src="<{$mldocs_imagePath}>priority<{$priority}>.png" alt="<{$mldocs_priorities_desc.$priority}>" /></label>
+        <{/foreach}>
+    </td>
+</tr>
+<tr>
+    <td colspan="2" class="even" align="right">
+        <input type="submit" name="setpriority" value="<{$smarty.const._MLDOCS_BUTTON_SET}>" />
+        <input type="hidden" name="archives" value="<{$mldocs_archives}>" />
+        <input type="hidden" name="op" value="setpriority" />
+    </td>
+</tr>
+</table>
+</form>
+</div>

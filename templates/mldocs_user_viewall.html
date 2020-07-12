@@ -1,0 +1,88 @@
+<{include file='db:mldocs_user_header.html'}>
+
+<{if $mldocs_noStaff}>
+    <div id="readOnly" class="errorMsg" style="border:1px solid #D24D00; background:#FEFECC no-repeat 7px 50%;color:#333;padding-left:45px;">
+    <{$smarty.const._MLDOCS_MESSAGE_NO_STAFF}>
+    </div>
+<{/if}>
+
+<br />
+<div id="userArchives">
+<form name="archiveFilter" method="post" action="<{$mldocs_baseURL}>/index.php">
+    <table id="archiveFilter" width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+        <tr>
+            <th colspan="5"><{$smarty.const._MLDOCS_TEXT_FILTERARCHIVES}></th>
+        </tr>
+        <tr>
+            <td class="head"><{$smarty.const._MLDOCS_TEXT_DEPARTMENT}></td>
+            <td class="head"><{$smarty.const._MLDOCS_TEXT_STATE}></td>
+            <td class="head"><{$smarty.const._MLDOCS_TEXT_STATUS}></td>
+            <td class="head" colspan="2"><{$smarty.const._MLDOCS_TEXT_LIMIT}></td>
+        </tr>
+        <tr>
+            <td><select name="dept" id="dept"><{html_options values=$mldocs_department_values output=$mldocs_department_options selected=$mldocs_filter.department}></select></td>
+            <td><select name="state" id="state"><{html_options values=$mldocs_state_values output=$mldocs_state_options selected=$mldocs_filter.state}></select></td>
+            <td><select name="status" id="status"><{html_options values=$mldocs_status_values output=$mldocs_status_options selected=$mldocs_filter.status}></select></td>
+            <td><select name="limit" id="limit"><{html_options options=$mldocs_limit_options selected=$mldocs_filter.limit}></select></td>
+            <td><input type="submit" value="<{$smarty.const._MLDOCS_BUTTON_SEARCH}>" /></td>
+        </tr>
+    </table>
+    <div>
+        <input type="hidden" name="op" value="userViewAll" />
+        <input type="hidden" name="start" value="<{$mldocs_filter.start}>" />
+        <input type="hidden" name="sort" value="<{$mldocs_filter.sort}>" />
+        <input type="hidden" name="order" value="<{$mldocs_filter.order}>" />
+    </div>
+</form>
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="formButton">
+<tr>
+    <th colspan="5">
+        <img src="<{$mldocs_imagePath}>archive.png" alt="<{$smart.const._MLDOCS_TEXT_ALL_ARCHIVES}>" /><{$smarty.const._MLDOCS_TEXT_ALL_ARCHIVES}>
+    </th>
+</tr>
+<{if $mldocs_has_userArchives neq 0}>
+    <tr class="head">
+        <td>
+            <a href="<{$mldocs_cols.codearchive.url}>" title="<{$mldocs_cols.codearchive.urltitle}>"><{$smarty.const._MLDOCS_TEXT_SUBJECT}><{if $mldocs_cols.subject.sortby eq true}><img src="images/<{$mldocs_cols.subject.sortdir}>.png" alt="<{$mldocs_cols.subject.sortdir}>" /><{/if}></a>
+        </td>
+        <td>
+            <a href="<{$mldocs_cols.department.url}>" title="<{$mldocs_cols.department.urltitle}>"><{$smarty.const._MLDOCS_TEXT_DEPARTMENT}><{if $mldocs_cols.department.sortby eq true}><img src="images/<{$mldocs_cols.department.sortdir}>.png" alt="<{$mldocs_cols.department.sortdir}>" /><{/if}></a>
+        </td>
+        <td>
+            <a href="<{$mldocs_cols.status.url}>" title="<{$mldocs_cols.status.urltitle}>"><{$smarty.const._MLDOCS_TEXT_STATUS}><{if $mldocs_cols.status.sortby eq true}><img src="images/<{$mldocs_cols.status.sortdir}>.png" alt="<{$mldocs_cols.status.sortdir}>" /><{/if}></a>
+        </td>
+        <td>
+            <a href="<{$mldocs_cols.priority.url}>" title="<{$mldocs_cols.priority.urltitle}>"><{$smarty.const._MLDOCS_TEXT_PRIORITY}><{if $mldocs_cols.priority.sortby eq true}><img src="images/<{$mldocs_cols.priority.sortdir}>.png" alt="<{$mldocs_cols.priority.sortdir}>" /><{/if}></a>
+        </td>
+        <td>
+            <a href="<{$mldocs_cols.elapsed.url}>" title="<{$mldocs_cols.elapsed.urltitle}>"><{$smarty.const._MLDOCS_TEXT_ELAPSED}><{if $mldocs_cols.elapsed.sortby eq true}><img src="images/<{$mldocs_cols.elapsed.sortdir}>.png" alt="<{$mldocs_cols.elapsed.sortdir}>" /><{/if}></a>
+        </td>
+    </tr>
+    <{foreach from=$mldocs_userArchives item=archive}>
+    <tr class="<{cycle values="odd,even"}>">
+        <td>
+            <a href="<{$mldocs_baseURL}>/archive.php?id=<{$archive.id}>"><{$archive.codearchive}></a>
+        </td>
+        <td>
+            <a href="<{$archive.departmenturl}>"><{$archive.department}></a>
+        </td>
+        <td>
+            <{$archive.status}>
+        </td>
+        <td>
+            <img src="<{$mldocs_imagePath}>priority<{$archive.priority}>.png" alt="<{$smarty.const._MLDOCS_TEXT_PRIORITY}> <{$archive.priority}>" />
+        </td>
+        <td>
+            <{$archive.elapsed}>
+        </td>
+    </tr>
+    <{/foreach}>
+<{else}>
+    <tr class="odd">
+        <td colspan="5">
+            <{$smarty.const._MLDOCS_NO_ARCHIVES_ERROR}>
+        </td>
+    </tr>
+<{/if}>
+</table>
+</div>

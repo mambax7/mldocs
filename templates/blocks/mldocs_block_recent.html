@@ -1,0 +1,11 @@
+<div id="mldocs_dept_recent">
+<ul>
+<{foreach from=$block.archives item=archive}>
+    <{if $archive.overdue}>
+        <li class="overdue"><a href="<{$archive.url}>" title="<{$archive.id}> - <{$archive.subject}>"><{$archive.trim_subject}></a></li>
+    <{else}>
+        <li><a href="<{$archive.url}>" title="<{$archive.id}> - <{$archive.subject}>"><{$archive.trim_subject}></a></li>
+    <{/if}>
+<{/foreach}>
+</ul>
+</div>

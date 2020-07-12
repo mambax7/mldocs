@@ -1,0 +1,464 @@
+<{include file='db:mldocs_staff_header.html'}>
+
+<div id="archiveDetails">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="outer">
+<tr>
+    <th colspan="2">
+        <img src="<{$mldocs_imagePath}>archiveInfo.png" alt="<{$mldocs_archive_details}>" /> <{$mldocs_archive_details}>
+    </th>
+</tr>
+<tr >
+    <td width="20%" class="head">
+        <a href="<{$mldocs_userinfo}>"><{$mldocs_username}></a>
+        <{if $mldocs_userlevel eq 0}>
+            <img src="<{$mldocs_imagePath}>ball.png" alt="<{$smarty.const._MLDOCS_TEXT_USER_NOT_ACTIVATED}>" title="<{$smarty.const._MLDOCS_TEXT_USER_NOT_ACTIVATED}>" />
+        <{/if}>
+    </td>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_LOG_TIME}> <{$mldocs_archive_posted}>
+    </td>
+</tr>
+<tr class="even">
+    <td>
+        <img src="<{$mldocs_user_avatar}>" class="comUserImg" alt="<{$smarty.const._MLDOCS_PIC_ALT_USER_AVATAR}>" />
+        <div class="comUserStat">
+        <b><{$smarty.const._MLDOCS_TEXT_PRIORITY}></b> <img src="images/priority<{$mldocs_archive_priority}>full.png" alt="<{$mldocs_priorities_desc.$mldocs_archive_priority}>" />
+        </div>
+        <div class="comUserStat">
+        <b><{$smarty.const._MLDOCS_TEXT_STATUS}> </b>
+        <{$mldocs_text_status}>
+        </div>
+        <div class="comUserStat">
+        <b><{$smarty.const._MLDOCS_TEXT_DEPARTMENT}></b>
+        <a href="<{$mldocs_departmenturl}>"><{$mldocs_archive_department}></a>
+        </div>
+        <div class="comUserStat">
+        <b><{$smarty.const._MLDOCS_TEXT_USER_IP}></b>
+        <{$mldocs_archive_userIP}>
+        </div>
+    </td>
+    <td>
+        <b><{$mldocs_archive_codearchive}></b><br />
+        <{$mldocs_archive_subject}><br />
+        <{$mldocs_archive_description}>
+        
+        <{if $mldocs_hasCustFields}>
+        <div id="custFields">
+            <br /><br />
+            <b><{$smarty.const._MLDOCS_TEXT_ADDITIONAL_INFO}></b><br />
+            <{foreach from=$mldocs_custFields item=field}>
+                <{if $field.value != ""}>
+                    <{if $smarty.const.MLDOCS_CONTROL_FILE == $field.controltype}>
+                        <b><{$field.name}></b>: <a href="<{$mldocs_baseURL}>/viewFile.php?id=<{$field.fileid}>"><{$field.filename}></a>
+                        <{if $mldocs_has_deleteFile}>
+                            <a href="<{$mldocs_baseURL}>/archive.php?op=deleteFile&amp;id=<{$mldocs_archiveID}>&amp;fileid=<{$field.fileid}>&amp;field=<{$field.fieldname}>"><img src="<{$mldocs_imagePath}>button_delete.png" alt="<{$smarty.const._MLDOCS_BUTTON_DELETE}>"></a>
+                        <{/if}>
+                    <{else}>
+                        <b><{$field.name}></b>: <{$field.value}>
+                    <{/if}>
+                    <br />
+                <{/if}>
+            <{/foreach}>
+        </div>
+        <{/if}>
+        
+        <{if $mldocs_hasArchiveFiles}>
+            <br /><br />
+            <div id="mldocsFiles">
+            <table border="0" class="outer">
+            <tr>
+                <td class="head">
+                    <{$smarty.const._MLDOCS_TEXT_FILE}>
+                </td>
+                <td class="head">
+                    <{$smarty.const._MLDOCS_TEXT_SIZE}>
+                </td>
+                <td class="head">
+                    <{$smarty.const._MLDOCS_TEXT_ACTIONS}>
+                </td>
+            </tr>
+            <{foreach from=$mldocs_aFiles item=aFile}>
+                <{if $aFile.responseid eq 0}>
+                <tr class="even">
+                    <td>
+                        <a href="<{$aFile.path}>"><{$aFile.filename}></a>
+                    </td>
+                    <td>
+                        <{$aFile.size}>
+                    </td>
+                    <td>
+                        <{if $mldocs_has_deleteFile}>
+                            <a href="<{$mldocs_baseURL}>/archive.php?op=deleteFile&amp;id=<{$mldocs_archiveID}>&amp;fileid=<{$aFile.id}>"><img src="<{$mldocs_imagePath}>button_delete.png" alt="<{$smarty.const._MLDOCS_BUTTON_DELETE}>"></a>
+                        <{/if}>
+                    </td>
+                </tr>
+                <{/if}>
+            <{/foreach}>
+            </table>
+            </div>
+        <{/if}>
+    </td>
+</tr>
+</table>
+</div>
+
+<br />
+<div id="ownershipDetails">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="outer">
+<tr>
+    <th colspan="2">
+        <img src="<{$mldocs_imagePath}>archiveInfo.png" alt="<{$smarty.const._MLDOCS_TEXT_OWNERSHIP_DETAILS}>" /><{$smarty.const._MLDOCS_TEXT_OWNERSHIP_DETAILS}>
+    </th>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_OWNER}>
+    </td>
+    <td class="even">
+        <{if $mldocs_archive_ownership neq ''}>
+            <a href="<{$mldocs_ownerinfo}>"><{$mldocs_archive_ownership}></a>
+        <{else}>
+            <{$smarty.const._MLDOCS_NO_OWNER}>
+        <{/if}>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_TIMESPENT}>
+    </td>
+    <td class="even">
+        <{$mldocs_archive_totalTimeSpent}> <{$smarty.const._MLDOCS_TEXT_MINUTES}>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_DEPARTMENT}>
+    </td>
+    <td class="even">
+        <{$mldocs_archive_department}>
+    </td>
+</tr>
+</table>
+</div>
+
+<{if $mldocs_showActions eq 1}>
+<br />
+<div id="actions">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="outer">
+<tr>
+    <th colspan="6"><img src="<{$mldocs_imagePath}>actions.png" alt="<{$smarty.const._MLDOCS_TEXT_ACTIONS2}>" /><{$smarty.const._MLDOCS_TEXT_ACTIONS2}></th>
+</tr>
+<{if $mldocs_has_changeOwner}>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_OWNERSHIP}>
+    </td>
+    <td class="even" colspan="3">
+    <form method="post" action="<{$mldocs_baseURL}>/archive.php?id=<{$mldocs_archiveID}>&amp;op=ownership">
+        <select name="uid" class="formButton">
+        <{foreach from=$mldocs_aOwnership item=staff}>
+            <option value="<{$staff.uid}>" <{if $mldocs_archive_ownerUid eq $staff.uid}>selected="selected"<{/if}>><{$staff.uname}></option>
+        <{/foreach}>
+        </select>
+        <input type="image" src="<{$mldocs_imagePath}>assignOwner.png" title="<{$smarty.const._MLDOCS_TEXT_ASSIGN_OWNER}>" name="assignOwner" style="border:0;background:transparent" />
+        <br /><{$smarty.const._MLDOCS_TEXT_ASSIGN_OWNER}>
+    </form>
+    </td>
+    <td class="even" colspan="2" nowrap="nowrap">
+        <form method="post" action="<{$mldocs_baseURL}>/archive.php?id=<{$mldocs_archiveID}>&amp;op=ownership">
+            <input type="hidden" value="<{$mldocs_claimOwner}>" name="uid" />
+            <input type="image" src="<{$mldocs_imagePath}>claimOwner.png" title="<{$smarty.const._MLDOCS_TEXT_CLAIM_OWNER}>" name="claimOwner" style="border:0;background:transparent" />
+            <br /><{$smarty.const._MLDOCS_TEXT_CLAIM_OWNER}>
+        </form>
+    </td>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_ASSIGNTO}>
+    </td>
+    <td class="even" colspan="5">
+        <form method="post" action="<{$mldocs_baseURL}>/index.php?op=setdept">
+            <select name="department">
+         	    <{html_options options=$mldocs_departments selected=$mldocs_departmentid}>
+         	</select>
+         	<input type="hidden" name="archives" value="<{$mldocs_archiveID}>" />
+         	<input type="hidden" name="setdept" value="1" />
+        	<input type="image" src="<{$mldocs_imagePath}>assignOwner.png" title="<{$smarty.const._MLDOCS_TEXT_ASSIGNTO}>" name="assignDept" style="border:0;background:transparent" />
+        </form>
+    </td>
+</tr>
+<{/if}>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_ARCHIVE}>
+    </td>
+    <{if $mldocs_has_addResponse}>
+    <td class="even center">
+        <a href="<{$mldocs_baseURL}>/response.php?id=<{$mldocs_archiveID}>&amp;op=staffFrm"><img src="<{$mldocs_imagePath}>response.png" alt="<{$smarty.const._MLDOCS_TEXT_ADD_RESPONSE}>" /></a>
+        <br /><{$smarty.const._MLDOCS_TEXT_ADD_RESPONSE}>        
+    </td>
+    <{/if}>
+    <{if $mldocs_has_editArchive}>
+    <td class="even center">
+        <a href="<{$mldocs_baseURL}>/archive.php?id=<{$mldocs_archiveID}>&amp;op=edit"><img src="<{$mldocs_imagePath}>edit.png" alt="<{$smarty.const._MLDOCS_TEXT_EDIT_ARCHIVE}>" /></a>
+        <br /><{$smarty.const._MLDOCS_TEXT_EDIT_ARCHIVE}>
+    </td>
+    <{/if}>
+    <{if $mldocs_has_deleteArchive}>
+    <td class="even center">
+        <form method="post" action="<{$mldocs_baseURL}>/archive.php?id=<{$mldocs_archiveID}>&amp;op=delete">
+        <input type="hidden" value="<{$mldocs_archiveID}>" name="archiveid" />
+        <input type="hidden" value="1" name="delete_archive" />
+        <input type="image" src="<{$mldocs_imagePath}>delete.png" title="<{$smarty.const._MLDOCS_TEXT_DELETE_ARCHIVE}>" name="deleteArchive" onclick='return confirm("<{$smarty.const._MLDOCS_JSC_TEXT_DELETE}>");' style="border:0;background:transparent" />
+        <br /><{$smarty.const._MLDOCS_TEXT_DELETE_ARCHIVE}>
+        </form>
+    </td>
+    <{/if}>
+    <{if $mldocs_has_mergeArchive}>
+    <td class="even center">
+        <form method="post" action="<{$mldocs_baseURL}>/archive.php?id=<{$mldocs_archiveID}>&amp;op=merge">
+        <input type="text" name="archive2" size="8" title="<{$smarty.const._MLDOCS_TEXT_MERGE_TITLE}>" class="formButton" />
+        <input type="image" src="<{$mldocs_imagePath}>merge.png" title="<{$smarty.const._MLDOCS_TEXT_MERGE_ARCHIVE}>" name="mergeArchive" style="border:0;background:transparent" />
+        <br /><{$smarty.const._MLDOCS_TEXT_MERGE_ARCHIVE}>
+        </form>
+    </td>
+    <{/if}>
+    <td class="even center" colspan="<{$mldocs_actions_colspan}>">
+        <a href="<{$mldocs_baseURL}>/archive.php?id=<{$mldocs_archiveID}>&amp;op=print" target="_blank"><img src="<{$mldocs_imagePath}>print.png" alt="<{$smarty.const._MLDOCS_TEXT_PRINT_ARCHIVE}>" /></a>
+        <br /><{$smarty.const._MLDOCS_TEXT_PRINT_ARCHIVE}>
+    </td>
+</tr>
+<{if $mldocs_has_changePriority}>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_UPDATE_PRIORITY}>
+    </td>
+    <td class="even" colspan="5">
+        <form method="post" action="<{$mldocs_baseURL}>/archive.php?id=<{$mldocs_archiveID}>&amp;op=updatePriority">
+            <{foreach from=$mldocs_priorities item=priority}>
+                <input type="radio" value="<{$priority}>" id="priority<{$priority}>" name="priority" <{if $mldocs_archive_priority eq $priority}>checked="checked"<{/if}> />
+                <label for="priority<{$priority}>"><img src="<{$mldocs_imagePath}>priority<{$priority}>.png" alt="<{$mldocs_priorities_desc.$priority}>" /></label>
+            <{/foreach}>
+            <input type="submit" name="updatePriority" value="<{$smarty.const._MLDOCS_BUTTON_UPDATE_PRIORITY}>" class="formButton" />
+        </form>
+    </td>
+</tr>
+<{/if}>
+<{if $mldocs_has_changeStatus || $mldocs_has_addResponse}>
+<tr>
+    <td class="head" width="20%">
+        <{if $mldocs_has_changeStatus}><{$smarty.const._MLDOCS_TEXT_UPDATE_STATUS}><{/if}><{if $mldocs_has_changeStatus && $mldocs_has_addResponse}> / <{/if}><{if $mldocs_has_addResponse}><{$smarty.const._MLDOCS_TEXT_ADD_RESPONSE}><{/if}> 
+    </td>
+    <td class="even" colspan="5">
+        <form method="post" action="<{$mldocs_baseURL}>/archive.php?id=<{$mldocs_archiveID}>&amp;op=updateStatus">
+        <select name="status">
+        <{foreach from=$mldocs_statuses item=status}>
+            <option value="<{$status.id}>" <{if $mldocs_archive_status eq $status.id}>selected="selected"<{/if}>><{$status.desc}></option>
+        <{/foreach}>
+        </select><br />
+        <{if $mldocs_has_addResponse}>
+        <textarea name="response" id="response" rows="5" cols="60" class="formButton"></textarea><br />
+        <{/if}>
+        <input type="submit" name="updateStatus" value="<{if $mldocs_has_changeStatus}><{$smarty.const._MLDOCS_BUTTON_UPDATE_STATUS}><{/if}><{if $mldocs_has_changeStatus && $mldocs_has_addResponse}> / <{/if}><{if $mldocs_has_addResponse}><{$smarty.const._MLDOCS_BUTTON_ADDRESPONSE}><{/if}>" class="formButton" />
+        </form>
+    </td>
+</tr>
+<{/if}>
+</table>
+</div>
+<{/if}>
+
+<br />
+<div id="responses">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="outer">
+<tr>
+    <th colspan="2">
+        <img src="<{$mldocs_imagePath}>response.png" alt="<{$smarty.const._MLDOCS_TEXT_RESPONSES}>" /><{$smarty.const._MLDOCS_TEXT_RESPONSES}>
+    </th>
+</tr>
+<{if $mldocs_hasResponses eq true}>
+<{foreach from=$mldocs_aResponses item=response}>
+<tr>
+    <td width="20%" class="head">
+        <img src="<{$response.user_avatar}>" class="comUserImg" alt="<{$smarty.const._MLDOCS_PIC_ALT_USER_AVATAR}>" />
+        <div class="comUserStat">
+            <{$smarty.const._MLDOCS_TEXT_USER}> <{$response.uname}> (<{$response.userIP}>)
+        </div>
+        <div class="comUserStat">
+            <{$smarty.const._MLDOCS_TEXT_LOG_TIME}> <{$response.updateTime}>
+        </div>
+        <div class="comUserStat">
+            <{$smarty.const._MLDOCS_TEXT_USER_RATING}> <{$response.staffRating}>
+        </div>
+        <{if $mldocs_has_editResponse}>
+            <br />
+            <a href="<{$mldocs_baseURL}>/response.php?op=staffEdit&amp;id=<{$mldocs_archiveID}>&amp;responseid=<{$response.id}>"><{$smarty.const._MLDOCS_TEXT_EDIT_RESPONSE}></a>
+        <{/if}>
+    </td>
+    <td class="<{cycle name="message" values="odd, even"}>">
+        <{if $response.private eq true}>
+            <b><{$smarty.const._MLDOCS_TEXT_PRIVATE}></b><br /><br />
+        <{/if}>
+        <{$response.message}>
+        <{if $response.attachSig eq 1 && $response.user_sig neq ''}>
+            <{$smarty.const._MLDOCS_SIG_SPACER}>
+            <{$response.user_sig}>
+        <{/if}>
+        <br /><br />
+        <{if $response.hasFiles eq true}>
+            <table border="0" class="outer">
+            <tr class="head">
+                <td>
+                    <{$smarty.const._MLDOCS_TEXT_FILE}>
+                </td>
+                <td>
+                    <{$smarty.const._MLDOCS_TEXT_SIZE}>
+                </td>
+                <td>
+                    <{$smarty.const._MLDOCS_TEXT_ACTIONS}>
+                </td>
+            </tr>
+            <{foreach from=$mldocs_aFiles item=aFile}>
+                <{if $aFile.responseid eq $response.id && $aFile.responseid neq 0}>
+                    <tr class="even">
+                        <td>
+                            <a href="<{$aFile.path}>"><{$aFile.filename}></a>
+                        </td>
+                        <td>
+                            <{$aFile.size}>
+                        </td>
+                        <td>
+                            <a href="<{$mldocs_baseURL}>/archive.php?op=deleteFile&amp;id=<{$mldocs_archiveID}>&amp;fileid=<{$aFile.id}>"><img src="<{$mldocs_imagePath}>button_delete.png" alt="<{$smarty.const._MLDOCS_BUTTON_DELETE}>"></a>
+                        </td>
+                    </tr>
+               <{/if}>
+           <{/foreach}>
+           </table>
+       <{/if}>
+    </td>
+</tr>
+
+<{/foreach}>
+<{else}>
+<tr class="odd">
+    <td colspan="2">
+        <{$smarty.const._MLDOCS_NO_RESPONSES_ERROR}>
+    </td>
+</tr>
+<{/if}>
+
+</table>
+</div>
+
+<br />
+<div id="logMessages">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="outer">
+<tr>
+    <th colspan="3">
+        <img src="<{$mldocs_imagePath}>logMessages.png" alt="<{$smarty.const._MLDOCS_TEXT_ACTIVITY_LOG}>" /><{$smarty.const._MLDOCS_TEXT_ACTIVITY_LOG}>
+    </th>
+</tr>
+<tr class="head">
+    <td>
+        <{$smarty.const._MLDOCS_TEXT_LOG_TIME}>
+    </td>
+    <td>
+        <{$smarty.const._MLDOCS_TEXT_NAME}>
+    </td>
+    <td>
+        <{$smarty.const._MLDOCS_TEXT_ACTION}>
+    </td>
+</tr>
+<{foreach from=$mldocs_logMessages item=message}>
+        <tr class="<{cycle values="odd, even"}>">
+            <td>
+                <{$message.lastUpdated}>
+            </td>
+            <td>
+                <{$message.uname}>
+            </td>
+            <td>
+                <{$message.action}>
+            </td>
+        </tr>
+<{/foreach}>
+</table>
+</div>
+
+<{if $mldocs_has_lastSubmitted}>
+<br />
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="outer">
+<tr>
+    <th colspan="3">
+        <{$smarty.const._MLDOCS_TEXT_LAST_ARCHIVES}> <{$mldocs_username}>
+    </th>
+</tr>
+<tr class="head">
+    <td>
+        <{$smarty.const._MLDOCS_TEXT_SUBJECT}>
+    </td>
+    <td>
+        <{$smarty.const._MLDOCS_TEXT_STATUS}>
+    </td>
+    <td>
+        <{$smarty.const._MLDOCS_TEXT_DEPARTMENT}>
+    </td>
+</tr>
+<{foreach from=$mldocs_lastSubmitted item=archive}>
+<tr class="<{cycle values="odd, even"}>">
+    <td>
+        <a href="<{$archive.url}>"><{$archive.subject}></a>
+    </td>
+    <td>
+        <{$archive.status}>
+    </td>
+    <td>
+        <a href="<{$archive.dept_url}>"><{$archive.department}></a>
+    </td>
+</tr>
+<{/foreach}>
+</table>
+<{/if}>
+
+<br />
+<div id="emailNotification">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="outer">
+<tr>
+    <th colspan="2">
+        <{$smarty.const._MLDOCS_TEXT_ARCHIVE_NOTIFICATIONS}>
+    </th>
+</tr>
+<tr class="head">
+    <td>
+        <{$smarty.const._MLDOCS_TEXT_EMAIL}>
+    </td>
+    <td>
+        <{$smarty.const._MLDOCS_TEXT_RECEIVE_NOTIFICATIONS}>
+    </td>
+</tr>
+<{foreach from=$mldocs_notifiedUsers item=user}>
+<tr class="<{cycle values="odd, even"}>">
+    <td>
+        <{$user.email}>
+    </td>
+    <td>
+        <{if $user.suppress eq 0}>
+            <a href="<{$user.suppressUrl}>"><img src="<{$mldocs_imagePath}>on.png" alt="<{$smarty.const._MLDOCS_TEXT_EMAIL_NOT_SUPPRESS}>" /></a>
+        <{else}>
+            <a href="<{$user.suppressUrl}>"><img src="<{$mldocs_imagePath}>off.png" alt="<{$smarty.const._MLDOCS_TEXT_EMAIL_SUPPRESS}>" /></a>
+        <{/if}>
+    </td>
+</tr>
+<{/foreach}>
+<tr class="foot" valign="top">
+    <td colspan="2">
+    <br />
+        <form method="post" action="<{$mldocs_baseURL}>/archive.php?id=<{$mldocs_archiveID}>&amp;op=addEmail">
+            <{$smarty.const._MLDOCS_TEXT_EMAIL_NOTIFICATION}>
+            <input type="text" name="newEmail" size="35" title="<{$smarty.const._MLDOCS_TEXT_EMAIL_NOTIFICATION_TITLE}>" class="formButton" />
+            <input type="submit" name="updateEmails" value="<{$smarty.const._MLDOCS_BUTTON_ADD_EMAIL}>" class="formButton" />
+        </form>
+    </td>
+</tr>
+</table>
+</div>

@@ -1,0 +1,184 @@
+<{include file='db:mldocs_staff_header.html'}>
+<div id="search">
+<form method="post" action="<{$mldocs_baseURL}>/search.php<{if $mldocs_returnPage neq false}>?return=<{$mldocs_returnPage}><{/if}>">
+<table width="100%" border="1" cellpadding="0" cellspacing="2" class="outer">
+<tr>
+    <th colspan="2">
+        <{$smarty.const._MLDOCS_TITLE_SEARCH}>
+    </th>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_SEARCH_NAME}>
+    </td>
+    <td class="even">
+        <{$mldocs_searchName}>
+        <input type="hidden" name="searchid" id="searchid" value="<{$mldocs_searchid}>" />
+        <input type="hidden" name="searchName" id="searchName" value="<{$mldocs_searchName}>" />
+    </td>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_ID}>
+    </td>
+    <td class="even">
+        <input type="text" name="archiveid" id="archiveid" value="<{$mldocs_searcharchiveid}>" size="6" />
+    </td>
+</tr>
+<tr>
+    <td class="head" width="20%">
+        <{$smarty.const._MLDOCS_TEXT_DEPARTMENT}>
+    </td>
+    <td class="even">
+        <select name="department[]" multiple="multiple" size="6">
+            <{html_options options=$mldocs_depts selected=$mldocs_searchdepartment}>
+        </select>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+       <{$smarty.const._MLDOCS_TEXT_PRIORITY}>
+    </td>
+    <td class="even">
+        <{foreach from=$mldocs_priorities item=priority}>
+            <input type="radio" value="<{$priority}>" name="priority" <{if $mldocs_searchpriority == $priority}>checked="checked" <{/if}>/>
+            <img src="<{$mldocs_imagePath}>priority<{$priority}>.png" alt="<{$mldocs_priorities_desc.$priority}>" />
+        <{/foreach}>
+        <input type="radio" value="-1" name="priority" <{if $mldocs_searchpriority == -1}>checked="checked" <{/if}>/><{$smarty.const._MLDOCS_TEXT_SELECT_ALL}>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+       <{$smarty.const._MLDOCS_TEXT_STATUS}>
+    </td>
+    <td class="even">
+        <b><{$smarty.const._MLDOCS_TEXT_BY_STATUS}></b>
+        <br />
+        &nbsp;&nbsp;&nbsp;<select name="status[]" multiple="multiple">
+            <{html_options options=$mldocs_statuses selected=$mldocs_searchstatus}>
+        </select>
+        <br /><br /><b><{$smarty.const._MLDOCS_TEXT_SEARCH_OR}></b><br /><br />
+        <b><{$smarty.const._MLDOCS_TEXT_BY_STATE}></b>
+        <br />
+        &nbsp;&nbsp;&nbsp;<input type="radio" value="1" name="state" <{if $mldocs_searchstate == 1}>checked="checked" <{/if}>/><{$smarty.const._MLDOCS_STATE1}>
+        <input type="radio" value="2" name="state" <{if $mldocs_searchstate == 2}>checked="checked" <{/if}>/><{$smarty.const._MLDOCS_STATE2}>
+        <input type="radio" value="-1" name="state" <{if $mldocs_searchstate == -1 || $mldocs_searchstate == ''}>checked="checked" <{/if}>/><{$smarty.const._MLDOCS_TEXT_SELECT_ALL}>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+       <{$smarty.const._MLDOCS_TEXT_SUBJECT}>
+    </td>
+    <td class="even">
+        <input type="text" name="subject" value="<{$mldocs_searchsubject}>" />
+    </td>
+</tr>
+<tr>
+    <td class="head">
+       <{$smarty.const._MLDOCS_TEXT_DESCRIPTION}>
+    </td>
+    <td class="even">
+        <input type="text" name="description" value="<{$mldocs_searchdescription}>" />
+    </td>
+</tr>
+<tr>
+    <td class="head">
+       <{$smarty.const._MLDOCS_TEXT_SUBMITTEDBY}>
+    </td>
+    <td class="even">
+        <input type="text" name="submittedBy" value="<{$mldocs_searchsubmittedBy}>" />
+    </td>
+</tr>
+<tr>
+    <td class="head">
+       <{$smarty.const._MLDOCS_TEXT_OWNER}>
+    </td>
+    <td class="even">
+        <select name="ownership">
+            <{html_options options=$mldocs_staff selected=$mldocs_searchownership}>
+        </select>
+    </td>
+</tr>
+<tr>
+    <td class="head">
+       <{$smarty.const._MLDOCS_TEXT_CLOSEDBY}>
+    </td>
+    <td class="even">
+        <select name="closedBy">
+            <{html_options options=$mldocs_staff selected=$mldocs_searchclosedBy}>
+        </select>
+    </td>
+</tr>
+<{if $mldocs_hasCustFields}>
+    <{foreach from=$mldocs_custFields item=field}>
+    <{if $field.controltype != $smarty.const.MLDOCS_CONTROL_FILE}>
+        <tr class="custfld">
+            <td class="head">
+                <{$field.name}>:
+            </td>
+            <td class="even">
+                <{if $field.controltype == $smarty.const.MLDOCS_CONTROL_TXTBOX}>
+                    <input type="text" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="<{$field.defaultvalue}>" maxlength="<{$field.maxlength}>" size="<{$field.fieldlength}>" />
+                <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_TXTAREA}>
+                    <textarea name="<{$field.fieldname}>" id="<{$field.fieldname}>" cols="<{$field.fieldlength}>" rows="5"><{$field.defaultvalue}></textarea>
+                <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_SELECT}>
+                    <select name="<{$field.fieldname}>" id="<{$field.fieldname}>" size="1">
+                        <option value="-1" <{if $field.defaultvalue == -1}>selected="selected"<{/if}>><{$smarty.const._MLDOCS_TEXT_SELECT_ALL}></option>
+                        <{foreach from=$field.fieldvalues item=value key=key}>
+                            <option value="<{$key}>" <{if $field.defaultvalue == $key}>selected="selected"<{/if}>><{$value}></option>
+                        <{/foreach}>
+                    </select>
+                <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_MULTISELECT}>
+                    <select name="<{$field.fieldname}>" id="<{$field.fieldname}>" size="3" multiple="multiple">
+                        <{foreach from=$field.fieldvalues item=value key=key}>
+                            <option value="<{$key}>" <{if $field.defaultvalue == $key}>selected="selected"<{/if}>><{$value}></option>
+                        <{/foreach}>
+                    </select>
+                <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_YESNO}>
+                    <input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="1" <{if $field.defaultvalue == 1}>checked="checked"<{/if}> /><{$smarty.const._MLDOCS_TEXT_YES}><br />
+                    <input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="0" <{if $field.defaultvalue == 0}>checked="checked"<{/if}> /><{$smarty.const._MLDOCS_TEXT_NO}><br />
+                <input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="-1" <{if $field.defaultvalue == -1}>checked="checked"<{/if}>  /><{$smarty.const._MLDOCS_TEXT_SELECT_ALL}>
+                <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_CHECKBOX}>
+                    <{foreach from=$field.fieldvalues item=value key=key}>
+                        <input type="checkbox" name="<{$field.fieldname}>" id="<{$field.fieldname}><{$key}>" value="<{$key}>" <{if $field.defaultvalue == $key}>checked="checked"<{/if}> /><{$value}><br />
+                    <{/foreach}>
+                    <input type="checkbox" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="-1"  <{if $field.defaultvalue == -1}>checked="checked"<{/if}> /><{$smarty.const._MLDOCS_TEXT_SELECT_ALL}>
+                <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_RADIOBOX}>
+                    <{foreach from=$field.fieldvalues item=value key=key}>
+                        <input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}><{$key}>" value="<{$key}>" <{if $field.defaultvalue == $key}>checked="checked"<{/if}> /><{$value}><br />
+                    <{/foreach}>
+                    <input type="radio" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="-1" <{if $field.defaultvalue == -1}>checked="checked"<{/if}> /><{$smarty.const._MLDOCS_TEXT_SELECT_ALL}>
+                <{elseif $field.controltype == $smarty.const.MLDOCS_CONTROL_DATETIME}>
+                    <input type="text" name="<{$field.fieldname}>" id="<{$field.fieldname}>" value="<{$field.defaultvalue}>" maxlength="<{$field.maxlength}>" size="<{$field.fieldlength}>" />
+                <{else}>
+                    <{* else is for MLDOCS_CONTROL_FILE *}>
+                    <{* do nothing for a file *}>
+                <{/if}>
+            </td>
+        </tr>
+    <{/if}>
+    <{/foreach}>
+<{/if}>
+<tr>
+    <td class="head">
+        <{$smarty.const._MLDOCS_TEXT_NUMRESULTS}>
+    </td>
+    <td class="even">
+        <select name="limit">
+            <option value="<{$smarty.const._MLDOCS_TEXT_RESULT1}>" <{if $mldocs_searchLimit == $smarty.const._MLDOCS_TEXT_RESULT1}>selected="selected"<{/if}>><{$smarty.const._MLDOCS_TEXT_RESULT1}></option>
+            <option value="<{$smarty.const._MLDOCS_TEXT_RESULT2}>" <{if $mldocs_searchLimit == $smarty.const._MLDOCS_TEXT_RESULT2}>selected="selected"<{/if}>><{$smarty.const._MLDOCS_TEXT_RESULT2}></option>
+            <option value="<{$smarty.const._MLDOCS_TEXT_RESULT3}>" <{if $mldocs_searchLimit == $smarty.const._MLDOCS_TEXT_RESULT3}>selected="selected"<{/if}>><{$smarty.const._MLDOCS_TEXT_RESULT3}></option>
+            <option value="<{$smarty.const._MLDOCS_TEXT_RESULT4}>" <{if $mldocs_searchLimit == $smarty.const._MLDOCS_TEXT_RESULT4}>selected="selected"<{/if}>><{$smarty.const._MLDOCS_TEXT_RESULT4}></option>
+        </select>
+    </td>
+</tr>
+<tr class="foot">
+    <td colspan="2">
+        <input type="hidden" name="save" value="1" />
+        <input type="submit" name="search" value="<{$smarty.const._MLDOCS_BUTTON_SEARCH}>" />
+        <input type="reset" name="reset" value="<{$smarty.const._MLDOCS_BUTTON_RESET}>" />
+    </td>
+</tr>
+</table>
+</form>
+</div>
